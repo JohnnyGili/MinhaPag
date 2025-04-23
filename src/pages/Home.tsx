@@ -1,8 +1,8 @@
-import '../assets/icons/cruz.png'
-import '../assets/icons/menu.svg'
-import '../assets/LogoGilli.png'
 import HeroRectangleOne from "../assets/images/Retangulo01.png";
 import HeroRectangleTwo from "../assets/images/Retangulo02.png";
+import LogoGilli from "src/assets/LogoGilli.png";
+import LogIncon from "src/assets/images/loginicon.png";
+import CruzIcon from "src/assets/icons/cruz.png";
 import "../styles/hero.css";
 import '../styles/header.css'
 import '../styles/solution.css'
@@ -41,7 +41,7 @@ export default function Home() {
         <>
             <header className="container py-sm" id='inicio'>
                 <nav className="flex items-center justify-between">
-                    <img src={"src/assets/LogoGilli.png"} alt="LogoGilli" width={220} height={80} />
+                    <img src={LogoGilli} alt="LogoGilli" width={220} height={80} />
                     <div className="desktop-only">
                         <ul className="flex gap-1">
                             <li>
@@ -65,7 +65,7 @@ export default function Home() {
                     <div className="desktop-only">
                         <div className="flex items-center">
                             <img
-                                src={"src/assets/images/loginicon.png"}
+                                src={LogIncon}
                                 alt="Icone de Login"
                                 width={40}
                                 height={40}
@@ -104,7 +104,7 @@ export default function Home() {
                                             <div >
                                                 <div className="flex items-center">
                                                     <img
-                                                        src={"src/assets/images/loginicon.png"}
+                                                        src={LogIncon}
                                                         alt="Icone de Login"
                                                         width={40}
                                                         height={40}
@@ -116,7 +116,7 @@ export default function Home() {
                                         </li>
                                     </ul>
                                     <span onClick={() => setShowMobileMenu(!showMobileMenu)} className="btn-wrapper">
-                                        <img src={"src/assets/icons/cruz.png"} alt="ícone fechar menu" width={24} height={24} />
+                                        <img src={CruzIcon} alt="ícone fechar menu" width={24} height={24} />
                                     </span>
                                 </div>
                             </div>
