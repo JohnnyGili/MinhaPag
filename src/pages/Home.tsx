@@ -1,9 +1,17 @@
-import '../assets/icons/cruz.png'
-import '../assets/icons/menu.svg'
-import '../assets/LogoGilli.png'
 import HeroRectangleOne from "../assets/images/Retangulo01.png";
 import HeroRectangleTwo from "../assets/images/Retangulo02.png";
-import Caminhao01 from "../assets/images/imgcaminhao1.png";
+import Caminhao01 from "../assets/images/imgcaminhao01.png";
+import Caminhao02 from "../assets/images/imgcaminhao02.png";
+import Caminhao03 from "../assets/images/imgcaminhao03.png";
+import LogoGilli from "../assets/LogoGilli01.png";
+import Cruz from "../assets/icons/cruz01.png";
+import LogIcon from "../assets/images/loginicon01.png";
+import Menu from "../assets/icons/menu01.svg";
+import ImagemPedido from "../assets/images/Gilli roqueiro01.png";
+import IconWhatz from "../assets/images/inconzapzap01.png";
+import IconEmail from "../assets/images/iconemail01.png";
+import IconFacebook from "../assets/images/iconfacebook01.png";
+import IconLocal from "../assets/images/imglocal01.png";
 import "../styles/hero.css";
 import '../styles/header.css'
 import '../styles/solution.css'
@@ -42,7 +50,7 @@ export default function Home() {
         <>
             <header className="container py-sm" id='inicio'>
                 <nav className="flex items-center justify-between">
-                    <img src={"src/assets/LogoGilli.png"} alt="LogoGilli" width={220} height={80} />
+                    <img src={LogoGilli} alt="LogoGilli" width={220} height={80} />
                     <div className="desktop-only">
                         <ul className="flex gap-1">
                             <li>
@@ -66,7 +74,7 @@ export default function Home() {
                     <div className="desktop-only">
                         <div className="flex items-center">
                             <img
-                                src={"src/assets/images/loginicon.png"}
+                                src={"src/assets/images/loginicon01.png"}
                                 alt="Icone de Login"
                                 width={40}
                                 height={40}
@@ -105,7 +113,7 @@ export default function Home() {
                                             <div >
                                                 <div className="flex items-center">
                                                     <img
-                                                        src={"src/assets/images/loginicon.png"}
+                                                        src={LogIcon}
                                                         alt="Icone de Login"
                                                         width={40}
                                                         height={40}
@@ -117,13 +125,13 @@ export default function Home() {
                                         </li>
                                     </ul>
                                     <span onClick={() => setShowMobileMenu(!showMobileMenu)} className="btn-wrapper">
-                                        <img src={"src/assets/icons/cruz.png"} alt="ícone fechar menu" width={24} height={24} />
+                                        <img src={Cruz} alt="ícone fechar menu" width={24} height={24} />
                                     </span>
                                 </div>
                             </div>
                             :
                             <span onClick={() => setShowMobileMenu(!showMobileMenu)} className="btn-wrapper" >
-                                <img src={"src/assets/icons/menu.svg"} alt="ícone menu" width={24} height={24} />
+                                <img src={Menu} alt="ícone menu" width={24} height={24} />
                             </span>
                         }
                     </div>
@@ -160,7 +168,7 @@ export default function Home() {
                                 />
                             </div>
                             <div className='card'>
-                                <img src={"src/assets/images/imgcaminhao2.png"} alt="Foto caminhao 2" width={280} height={180} />
+                                <img src={Caminhao02} alt="Foto caminhao 2" width={280} height={180} />
                                 <h2>Prancha</h2>
                                 <p>Comprimento: 20 metros</p>
                                 <p>Largura: 3.2 metros</p>
@@ -173,7 +181,7 @@ export default function Home() {
                                 />
                             </div>
                             <div className='card'>
-                                <img src={"src/assets/images/imgcaminhao3.png"} alt="Foto caminhao 3" width={280} height={180} />
+                                <img src={Caminhao03} alt="Foto caminhao 3" width={280} height={180} />
                                 <h2>Prancha</h2>
                                 <p>Comprimento: 15 metros</p>
                                 <p>Largura: 3 metros</p>
@@ -265,7 +273,7 @@ export default function Home() {
                                         </form>
                                     </div>
                                     <div className="desktop-only">
-                                        <img src={"src/assets/images/Gilli roqueiro.png"} alt="Imagem Grande" width={700} height={500} />
+                                        <img src={ImagemPedido} alt="Imagem Grande" width={700} height={500} />
                                     </div>
                                 </div>
                             </section>
@@ -280,17 +288,17 @@ export default function Home() {
                                     <h2>CONTATOS DA EMPRESA</h2>
                                     <br />
                                     <div className="flex items-center gap-1">
-                                        <img src={"src/assets/images/inconzapzap.png"} alt="WhatsApp" width={50} height={50} />
+                                        <img src={IconWhatz} alt="WhatsApp" width={50} height={50} />
                                         <p>Telefone: (45) 99954-0011</p>
                                     </div>
                                     <br />
                                     <div className="flex items-center gap-1">
-                                        <img src={"src/assets/images/iconemail.png"} alt="Email" width={50} height={50} />
+                                        <img src={IconEmail} alt="Email" width={50} height={50} />
                                         <p>Email: <a href="mailto:@Gilli_I_R@gmail.com.br">@Gilli_I_R@gmail.com.br</a></p>
                                     </div>
                                     <br />
                                     <div className="flex items-center gap-1">
-                                        <img src={"src/assets/images/iconfacebook.png"} alt="Facebook" width={50} height={50} />
+                                        <img src={IconFacebook} alt="Facebook" width={50} height={50} />
                                         <p><a href="https://www.facebook.com/GilliImplementosRodoviariosLtda/?locale=pt_BR"
                                             target="_blank">Nosso Facebook</a></p>
                                     </div>
@@ -303,7 +311,7 @@ export default function Home() {
                                     <br />
                                     <a href="https://www.google.com/maps/place/R.+Medicina,+142+-+Universit%C3%A1rio,+Cascavel+-+PR,+85819-260/@-24.9779318,-53.4445706,18.25z/data=!4m6!3m5!1s0x94f3d45283019f15:0x21f05d7232ef4589!8m2!3d-24.9780201!4d-53.4444104!16s%2Fg%2F11gf62n805?entry=ttu&g_ep=EgoyMDI0MDkwNC4wIKXMDSoASAFQAw%3D%3D"
                                         target="_blank">
-                                        <img src={"src/assets/images/imglocal.png"} alt="Localização no Google Maps" width={300} height={200} />
+                                        <img src={IconLocal} alt="Localização no Google Maps" width={300} height={200} />
                                     </a>
                                 </div>
 
