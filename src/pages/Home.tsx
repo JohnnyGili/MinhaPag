@@ -74,7 +74,7 @@ export default function Home() {
                     <div className="desktop-only">
                         <div className="flex items-center">
                             <img
-                                src={"src/assets/images/loginicon01.png"}
+                                src={LogIcon}
                                 alt="Icone de Login"
                                 width={40}
                                 height={40}
