@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Caminhao01 from "../assets/images/imgcaminhao01.png";
+import Caminhao01 from "../assets/images/imgcaminhao03.png";
 
-const Card01: React.FC = () => {
+const Card03: React.FC = () => {
   const navigate = useNavigate();
 
   const handleVoltar = () => {
@@ -33,7 +33,7 @@ const Card01: React.FC = () => {
       {/* Card central */}
       <div style={{
         maxWidth: '1000px',
-        margin: '80px auto 0 auto', // margem maior em cima pra não cobrir o botão
+        margin: '80px auto 0 auto',
         padding: '30px',
         border: '1px solid #ccc',
         borderRadius: '10px',
@@ -63,7 +63,7 @@ const Card01: React.FC = () => {
           {/* Imagem */}
           <img
             src={Caminhao01}
-            alt="Foto caminhão 1"
+            alt="Foto caminhão 3"
             width={450}
             height={280}
             style={{ marginLeft: '40px', borderRadius: '10px', objectFit: 'cover' }}
@@ -74,4 +74,4 @@ const Card01: React.FC = () => {
   );
 };
 
-export default Card01;
+export default Card03;

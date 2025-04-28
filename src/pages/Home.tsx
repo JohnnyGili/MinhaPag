@@ -164,7 +164,7 @@ export default function Home() {
                                 <p>Cor: Branca</p>
                                 <CustomButton
                                     label="Ver mais"
-                                    onClick={() => window.location.href = "/card02"}
+                                    onClick={() => window.location.href = "/card01"}
                                 />
                             </div>
                             <div className='card'>
@@ -177,7 +177,7 @@ export default function Home() {
                                 <p>Cor: Amarelo</p>
                                 <CustomButton
                                     label="Ver mais"
-                                    onClick={() => window.location.href = "/card01"}
+                                    onClick={() => window.location.href = "/card02"}
                                 />
                             </div>
                             <div className='card'>
@@ -190,7 +190,7 @@ export default function Home() {
                                 <p>Cor: Preto</p>
                                 <CustomButton
                                     label="Ver mais"
-                                    onClick={() => alert("Botão pressionado!")}
+                                    onClick={() => window.location.href = "/card03"}
                                 />
                             </div>
                         </div>

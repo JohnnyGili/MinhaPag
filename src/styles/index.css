@@ -14,12 +14,12 @@
 
 :root {
   --bg-color: #ffffff;
-  --text-color: #0033ff;
+  --text-color: rgb(60, 60, 60);
   --second-text-color: #737373;
   --light-text-color: #FFF;
-  --light-gray: #F8F8F8;
+  --light-gray: #f8f8f8;
   --primary-color: #f02323;
-  --secondary-color: #B2E3FF;
+  --secondary-color: #ffb2b2;
 
   --ff-sans: "Montserrat", system-ui, sans-serif;
   --fw-base: 400;

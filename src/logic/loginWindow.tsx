@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 
-// Define a tipagem das props, se estiver usando TypeScript
 interface LoginWindowProps {
   estaAberto: boolean;
   estaFechando: () => void;
 }
 
 const LoginWindow: React.FC<LoginWindowProps> = ({ estaAberto, estaFechando }) => {
-  // Se o modal não estiver aberto, retorna null para não renderizar nada
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
+
   if (!estaAberto) {
     return null;
   }
 
+  const handleLogin = () => {
+    if (login === "admin" && senha === "admin") {
+      window.location.href = "/editar";
+    } else {
+      alert("Login ou senha incorretos!");
+    }
+  };
+
   return (
-    // Div de fundo que cobre toda a tela; ao clicar nela, aciona a função para fechar o modal
     <div 
       className="modal-overlay" 
       onClick={estaFechando}  
@@ -30,57 +38,95 @@ const LoginWindow: React.FC<LoginWindowProps> = ({ estaAberto, estaFechando }) =
         zIndex: 1000
       }}
     >
-      {/* Div que contém o conteúdo do modal */}
-      {/* O onClick abaixo evita que, ao clicar no conteúdo, o clique seja propagado para a overlay e feche o modal */}
       <div 
         className="modal-content" 
         onClick={(e) => e.stopPropagation()}
         style={{
           background: "#fff",
-          padding: "20px",
+          padding: "30px 40px",
           borderRadius: "8px",
-          width: "300px",
-          textAlign: "center"
+          width: "500px",
+          position: "relative",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+          textAlign: "center",
+          maxHeight: "90vh",
+          overflowY: "auto"
         }}
       >
-        <h2>Login</h2>
-        <form>
-          <div style={{ marginBottom: "10px" }}>
-            <input 
-              type="text" 
-              placeholder="Login" 
-              style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-            />
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <input 
-              type="password" 
-              placeholder="Senha" 
-              style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-            />
-          </div>
-            <button 
-            onClick={() => window.location.href = "/card01"} 
-            type="button" 
-            style={{ backgroundColor: "green", color:"white", width: "100%", padding: "8px", marginBottom: "10px" }}
-            >
-            Logar
-            </button>
-        </form>
-        {/* Botão para fechar o modal */}
+        {/* Botão de fechar (X) */}
         <button 
           onClick={estaFechando}
           style={{
-            background: "red",
-            color: "#fff",
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            background: "transparent",
             border: "none",
-            padding: "8px 16px",
-            cursor: "pointer",
-            borderRadius: "4px"
+            fontSize: "24px",
+            cursor: "pointer"
           }}
         >
-          Fechar
+          &times;
         </button>
+
+        <h2 style={{ marginBottom: "20px", fontWeight: "bold" }}>Acesso Login</h2>
+
+        <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+          <div style={{ textAlign: "center", marginBottom: "15px" }}>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", fontSize: "16px" }}>
+              Login:
+            </label>
+            <input 
+              type="text" 
+              placeholder="Digite seu login"
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                boxSizing: "border-box",
+                textAlign: "left"
+              }}
+            />
+          </div>
+          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold", fontSize: "16px" }}>
+              Senha:
+            </label>
+            <input 
+              type="password" 
+              placeholder="Digite sua senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                boxSizing: "border-box",
+                textAlign: "left"
+              }}
+            />
+          </div>
+          <button 
+            type="submit"
+            style={{
+              backgroundColor: "#4CAF50",
+              color: "white",
+              width: "100%",
+              padding: "12px",
+              border: "none",
+              borderRadius: "5px",
+              fontWeight: "bold",
+              fontSize: "16px",
+              cursor: "pointer"
+            }}
+          >
+            ENTRAR
+          </button>
+        </form>
       </div>
     </div>
   );
