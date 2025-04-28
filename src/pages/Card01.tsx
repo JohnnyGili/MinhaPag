@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Caminhao01 from "../assets/images/imgcaminhao01.png";
+import BackButton from '../components/BackButton';
 
 const Card01: React.FC = () => {
   const navigate = useNavigate();
@@ -12,23 +13,7 @@ const Card01: React.FC = () => {
   return (
     <div style={{ position: 'relative', minHeight: '100vh', padding: '20px' }}>
       
-      {/* Botão Voltar */}
-      <button
-        onClick={handleVoltar}
-        style={{
-          position: 'absolute',
-          top: '20px',
-          left: '20px',
-          backgroundColor: 'rgb(60, 60, 60)',
-          color: 'white',
-          border: 'none',
-          padding: '10px 20px',
-          borderRadius: '5px',
-          cursor: 'pointer'
-        }}
-      >
-        Voltar
-      </button>
+      <BackButton onClick={handleVoltar} />
 
       {/* Card central */}
       <div style={{

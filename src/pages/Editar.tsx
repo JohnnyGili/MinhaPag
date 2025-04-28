@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BackButton from '../components/BackButton';
 
 // Tipos dos dados
 interface Pedido {
@@ -71,22 +72,7 @@ const Editar: React.FC = () => {
     return (
         <div style={{ position: 'relative', minHeight: '100vh', padding: '20px' }}>
 
-            <button
-                onClick={handleVoltar}
-                style={{
-                    position: 'absolute',
-                    top: '20px',
-                    left: '20px',
-                    backgroundColor: 'rgb(60, 60, 60)',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 20px',
-                    borderRadius: '5px',
-                    cursor: 'pointer'
-                }}
-            >
-                Voltar
-            </button>
+            <BackButton onClick={handleVoltar} />
 
             <section style={{ marginTop: '80px' }}>
                 <h1>Pedidos</h1>
