@@ -12,18 +12,29 @@ import IconWhatz from "../assets/images/inconzapzap01.png";
 import IconEmail from "../assets/images/iconemail01.png";
 import IconFacebook from "../assets/images/iconfacebook01.png";
 import IconLocal from "../assets/images/imglocal01.png";
+import Icon01 from "../assets/images/ColeMacGrath.webp";
+import Estrela from "../assets/images/estrela.jpg";
+import EstrelaVazia from "../assets/images/estrela vazia.jpg";
+import "../styles/testimonials.css";
 import "../styles/hero.css";
 import '../styles/header.css'
 import '../styles/solution.css'
 import '../styles/utility.css'
 import '../styles/index.css'
 import '../styles/buttons.css'
+import '../styles/pricing.css'
 import { useEffect, useState } from 'react';
 import LoginWindow from '../logic/loginWindow';
 import CustomButton from '../components/CustomButton';
 import Hook from '../components/Hook';
+import FunctionCard from "../components/FunctionCard";
+import CarouselCard from "../components/CarouselCard";
+import Check from "../assets/icons/check.png";
+
+import {supabase} from '../supaBaseConnection';
 
 export default function Home() {
+    
     const [showMobileMenu, setShowMobileMenu] = useState(false);
 
     useEffect(() => {
@@ -46,6 +57,32 @@ export default function Home() {
     };
     //Login
 
+    ///CREATE Pedido
+        const [nome, setNome] = useState('');
+        const [email, setEmail] = useState('');
+        const [telefone, setTelefone] = useState('');
+        const [comprimento, setComprimento] = useState('11m');
+        const [largura, setLargura] = useState('2.5m');
+        const [carga, setCarga] = useState('12t');
+        const [freio, setFreio] = useState('ar');
+        const [cor, setCor] = useState('amarelo');
+
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+
+            const { error } = await supabase.from('pedido').insert([
+                {
+                nome, email, telefone, carga, comprimento, largura, freio, cor
+                }
+            ]);
+
+            if (error) {
+                console.error("Erro ao salvar pedido:", error);
+            } else {
+                alert("Pedido salvo com sucesso!");
+            }
+        };
+    ///CREATE Pedido
     return (
         <>
             <header className="container py-sm" id='inicio'>
@@ -154,6 +191,11 @@ export default function Home() {
                     </header>
                     <section className="desktop-only">
                         <div className='even-columns'>
+                            {/* <FunctionCard 
+                                img={Caminhao01}
+                                title="Prancha"
+                                description="teste"                               
+                                /> */}
                             <div className='card'>
                                 <img src={Caminhao01} alt="Foto caminhao 1" width={280} height={180} />
                                 <h2>Prancha</h2>
@@ -195,6 +237,7 @@ export default function Home() {
                             </div>
                         </div>
                     </section>
+
                     <section className="container" id="solution">
                         {/* Pedidos */}
                         <section id='fazerPedidos'>
@@ -202,26 +245,26 @@ export default function Home() {
                                 <div className="flex items-center gap-3" style={{ background: 'var(--light-gray)', padding: '4rem' }}>
                                     <div>
                                         <h2>FAZER PEDIDO</h2>
-                                        <form action="salvarPedido.php" method="POST">
+                                        <form onSubmit={handleSubmit}>
                                             <label htmlFor="nome">Nome:</label>
                                             <br />
-                                            <input type="text" id="nome" name="nome" required />
+                                            <input type="text" id="nome" value={nome} onChange={(e) => setNome(e.target.value)} required/>
                                             <br />
 
                                             <label htmlFor="email">Email:</label>
                                             <br />
-                                            <input type="email" id="email" name="email" required />
+                                            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                                             <br />
 
                                             <label htmlFor="telefone">Telefone:</label>
                                             <br />
-                                            <input type="tel" id="telefone" name="telefone" required />
+                                            <input type="tel" id="telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} required/>
                                             <br />
 
                                             <div>
                                                 <label htmlFor="comprimento">Comprimento:</label>
                                                 <br />
-                                                <select id="comprimento" name="comprimento">
+                                                <select id="comprimento" name="comprimento" value={comprimento} onChange={(e) => setComprimento(e.target.value)}>
                                                     <option value="11m">11m</option>
                                                     <option value="15m">15m</option>
                                                     <option value="20m">20m</option>
@@ -231,7 +274,7 @@ export default function Home() {
                                             <div>
                                                 <label htmlFor="largura">Largura:</label>
                                                 <br />
-                                                <select id="largura" name="largura">
+                                                <select id="largura" name="largura" value={largura} onChange={(e) => setLargura(e.target.value)}>
                                                     <option value="2.5m">2.5m</option>
                                                     <option value="3m">3m</option>
                                                     <option value="3.2m">3.2m</option>
@@ -241,7 +284,7 @@ export default function Home() {
                                             <div>
                                                 <label htmlFor="carga">Carga:</label>
                                                 <br />
-                                                <select id="carga" name="carga">
+                                                <select id="carga" name="carga" value={carga} onChange={(e) => setCarga(e.target.value)}>
                                                     <option value="12t">12t</option>
                                                     <option value="25t">25t</option>
                                                     <option value="33t">33t</option>
@@ -251,7 +294,7 @@ export default function Home() {
                                             <div>
                                                 <label htmlFor="freio">Freio:</label>
                                                 <br />
-                                                <select id="freio" name="freio">
+                                                <select id="freio" name="freio" value={freio} onChange={(e) => setFreio(e.target.value)}>
                                                     <option value="ar">Ar</option>
                                                     <option value="disco">Disco</option>
                                                     <option value="abs">ABS</option>
@@ -259,9 +302,9 @@ export default function Home() {
                                             </div>
 
                                             <div>
-                                                <label htmlFor="cores">Cores:</label>
+                                                <label htmlFor="cor">Cores:</label>
                                                 <br />
-                                                <select id="cores" name="cores">
+                                                <select id="cor" name="cor" value={cor} onChange={(e) => setCor(e.target.value)}>
                                                     <option value="amarelo">Amarelo</option>
                                                     <option value="preto">Preto</option>
                                                     <option value="branco">Branco</option>
@@ -269,7 +312,7 @@ export default function Home() {
                                             </div>
 
                                             <br />
-                                            <button className='btn-primary ' type="submit">Salvar Pedido</button>
+                                            <button className='btn-primary' type="submit">Salvar Pedido</button>
                                         </form>
                                     </div>
                                     <div className="desktop-only">
@@ -279,6 +322,8 @@ export default function Home() {
                             </section>
                         </section>
                     </section>
+
+                    
 
                     <section id='local'>
                         {/* Contato */}
@@ -325,15 +370,180 @@ export default function Home() {
                             </div>
                         </div>
                     </section>
+
+                    
+
                 </section>
+                
             </section>
+            <section id="testimonials">
+                        {/* Carrocel */}
+                        <header>
+                            <span>
+                                <p className="desktop-only">
+                                    Conselho de quem conhece
+                                </p>
+                                <h2>Cada cliente importa!</h2>
+                            </span>
+                            <p>
+                                Quem já adquiriu sabe da qualidade dos nossos implementos. 
+                                Nossas pranchas de 2 eixos são conhecidas pela resistência e desempenho no transporte pesado. 
+                                Abaixo, você confere o que dizem os clientes que já confiaram na Gilli e aprovaram.
+                            </p>
+                        </header>
+                        <section className="carousel">
+                            <div className="carousel-content">
+                                <CarouselCard
+                                    testimony="Comprei uma prancha de 2 eixos da Gilli há mais de 5 anos e até hoje ela entrega resultado. Aguenta carga pesada sem problema nenhum!"
+                                    profileImg={Icon01}
+                                    rating={3}
+                                    name="Cole Macgrath"
+                                    position="CEO New Marais"
+                                />
+                                <div className="carousel-card">
+                                    <img src={Icon01} alt="Imagem perfil cliente" />
+                                    <span className="testimony">
+                                        <p>
+                                            Comprei uma prancha de 2 eixos da Gilli há mais de 5 anos e até hoje ela entrega resultado. 
+                                            Aguenta carga pesada sem problema nenhum!
+                                        </p>
+                                    </span>
+                                    <span className="rating">
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela sem fundo" width={20} height={22} />
+                                    </span>
+                                    <span className="names">
+                                        <p>Cole Macgrath</p>
+                                        <p>CEO New Marais</p>
+                                    </span>
+                                </div>
+                                <div className="carousel-card">
+                                    <img src={Icon01} alt="Imagem perfil cliente" />
+                                    <span className="testimony">
+                                        <p>
+                                            A robustez das pranchas Gilli é coisa de outro nível. 
+                                            Já rodei milhares de quilômetros com a minha e nunca precisei de manutenção pesada.
+                                        </p>
+                                    </span>
+                                    <span className="rating">
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={EstrelaVazia} alt="ícone estrela sem fundo" width={20} height={22} />
+                                    </span>
+                                    <span className="names">
+                                        <p>Cole Macgrath</p>
+                                        <p>CEO New Marais</p>
+                                    </span>
+                                </div>
+                                <div className="carousel-card">
+                                    <img src={Icon01} alt="Imagem perfil cliente" />
+                                    <span className="testimony">
+                                        <p>
+                                            O atendimento foi excelente e a prancha superou as expectativas. 
+                                            Estabilidade, segurança e durabilidade de verdade!
+                                        </p>
+                                    </span>
+                                    <span className="rating">
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
+                                        <img src={Estrela} alt="ícone estrela sem fundo" width={20} height={22} />
+                                    </span>
+                                    <span className="names">
+                                        <p>Cole Macgrath</p>
+                                        <p>CEO New Marais</p>
+                                    </span>
+                                </div>                               
+                            </div>
+                        </section>                  
+            </section>
+            <section id="pricing" className="container">
+                 {/* PricingCard */}                     
+                <header>
+                    <p className="desktop-only">Planos e preços</p>
+                    <h2>Nossos planos</h2>
+                </header>
+                    <section className="even-columns gap-1.5">
+                        <div className="pricing-card">
+                            <span className="plan">
+                                <h3>Básico</h3>
+                                <p>Você tem direito a uma prova das comidas DonaFrost.</p>
+                            </span>
+                                <h2>Grátis</h2>
+                            <button type="button" key="free" className="secondary">
+                                Pedir agora
+                            </button>
+                            <span className="hr" /><span className="features">
+                                <img src={Check} alt="ícone check" width={24} height={24} />
+                                <p>Retire na loja</p>
+                            </span>
+                            <ul className="features">                           
+                                <img src={Check} alt="íone check" width={24} height={24} />
+                                <p>Apenas 1 por CPF</p>                           
+                            </ul>
+                        </div>
+                        <div className="pricing-card premium">
+                            <span className="bonus">
+                                    <p>1º MÊS COM DESCONTO</p>
+                            </span>
+                            <span className="plan">
+                                <h3>Premium</h3>
+                                <p>Para quem precisa de uma marmita diária, muito saborosa.</p>
+                            </span>
+                            <span className="price">
+                                <h2>R$ 89,90</h2>
+                                <p>/mês</p>
+                            </span>
+                            <button type="button" key="free" className="secondary">
+                                Pedir agora
+                            </button>
+                            <span className="hr" />
+                            <span className="features">
+                                <img src={Check} alt="ícone check" width={24} height={24} />
+                                <p>2 Entregas</p>
+                            </span>
+                            <span className="features">
+                                <img src={Check} alt="ícone check" width={24} height={24} />
+                                <p>5 Refeições por semana</p>
+                            </span>
+                            <span className="features">
+                                <img src={Check} alt="ícone check" width={24} height={24} />
+                                <p>2 Sucos por semana</p>
+                            </span>
+                        </div>
+                        <div className="pricing-card">
+                            <span className="plan">
+                                <h3>Básico</h3>
+                                <p>Você tem direito a uma prova das comidas DonaFrost.</p>
+                            </span>
+                                <h2>Grátis</h2>
+                            <button type="button" key="free" className="secondary">
+                                Pedir agora
+                            </button>
+                            <span className="hr" /><span className="features">
+                                <img src={Check} alt="ícone check" width={24} height={24} />
+                                <p>Retire na loja</p>
+                            </span>
+                            <ul className="features">
+                                <img src={Check} alt="íone check" width={24} height={24} />
+                                <p>Apenas 1 por CPF</p>
+                            </ul>
+                        </div>
+                    </section>
+            </section> 
+
             <section>
                 <footer style={{ backgroundColor: "black", textAlign: "center", padding: "1rem" }}>
                     <p style={{ color: "white" }}>&copy; 2024 GILLI Implementos Rodoviários</p>
                 </footer>
                 <LoginWindow estaAberto={loginAberto} estaFechando={fecharLogin} />
-
             </section>
-        </>
-    );
+            </>
+            );
 }

@@ -1,153 +1,248 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BackButton from '../components/BackButton';
-
-// Tipos dos dados
-interface Pedido {
-    idPedido: number;
-    nomeCliente: string;
-    emailCliente: string;
-    telefoneCliente: string;
-    cargasDisponibilizados: string;
-    tamanhoComprimento: string;
-    nomeCor: string;
-    tamanhoLargura: string;
-    nomeFreio: string;
-}
-
-interface Estoque {
-    idPrancha: number;
-    dataDeModificacao: string;
-    documentacao: string;
-    estadoConservacao: string;
-    preco: number;
-    cargasDisponibilizados: string;
-    tamanhoComprimento: string;
-    nomeCor: string;
-    tamanhoLargura: string;
-    nomeFreio: string;
-}
+import "../styles/tables.css";
+import { supabase } from '../supaBaseConnection';
 
 const Editar: React.FC = () => {
     const navigate = useNavigate();
-    const [pedidos, setPedidos] = useState<Pedido[]>([]);
-    const [estoque, setEstoque] = useState<Estoque[]>([]);
 
     const handleVoltar = () => {
         navigate('/');
     };
 
-    useEffect(() => {
-        // Dados simulados para PEDIDOS
-        const pedidosFake: Pedido[] = [
-            { idPedido: 52, nomeCliente: 'Maria Oliveira', emailCliente: 'maria@example.com', telefoneCliente: '987654321', cargasDisponibilizados: '25t', tamanhoComprimento: '15m', nomeCor: 'preto', tamanhoLargura: '3m', nomeFreio: 'disco' },
-            { idPedido: 53, nomeCliente: 'Carlos Souza', emailCliente: 'carlos@example.com', telefoneCliente: '123123123', cargasDisponibilizados: '33t', tamanhoComprimento: '20m', nomeCor: 'branco', tamanhoLargura: '3.2m', nomeFreio: 'abs' },
-            { idPedido: 54, nomeCliente: 'Ana Lima', emailCliente: 'ana@example.com', telefoneCliente: '321321321', cargasDisponibilizados: '12t', tamanhoComprimento: '15m', nomeCor: 'amarelo', tamanhoLargura: '2.5m', nomeFreio: 'disco' },
-            { idPedido: 55, nomeCliente: 'Pedro Rocha', emailCliente: 'pedro@example.com', telefoneCliente: '456456456', cargasDisponibilizados: '25t', tamanhoComprimento: '11m', nomeCor: 'preto', tamanhoLargura: '3m', nomeFreio: 'ar' },
-            { idPedido: 56, nomeCliente: 'Fernanda Costa', emailCliente: 'fernanda@example.com', telefoneCliente: '789789789', cargasDisponibilizados: '33t', tamanhoComprimento: '20m', nomeCor: 'branco', tamanhoLargura: '3.2m', nomeFreio: 'abs' },
-            { idPedido: 57, nomeCliente: 'Lucas Almeida', emailCliente: 'lucas@example.com', telefoneCliente: '147258369', cargasDisponibilizados: '12t', tamanhoComprimento: '15m', nomeCor: 'preto', tamanhoLargura: '2.5m', nomeFreio: 'disco' },
-            { idPedido: 58, nomeCliente: 'Juliana Santos', emailCliente: 'juliana@example.com', telefoneCliente: '963852741', cargasDisponibilizados: '25t', tamanhoComprimento: '11m', nomeCor: 'amarelo', tamanhoLargura: '3m', nomeFreio: 'ar' },
-            { idPedido: 59, nomeCliente: 'Gabriel Melo', emailCliente: 'gabriel@example.com', telefoneCliente: '159753456', cargasDisponibilizados: '33t', tamanhoComprimento: '20m', nomeCor: 'branco', tamanhoLargura: '3.2m', nomeFreio: 'disco' },
-            { idPedido: 60, nomeCliente: 'Beatriz Lima', emailCliente: 'beatriz@example.com', telefoneCliente: '951753456', cargasDisponibilizados: '12t', tamanhoComprimento: '11m', nomeCor: 'preto', tamanhoLargura: '2.5m', nomeFreio: 'abs' },
-        ];
+    ////Pesquisar Pedido
+    const [buscaPedido, setBuscaPedido] = useState('');
 
-        // Dados simulados para ESTOQUE
-        const estoqueFake: Estoque[] = [
-            { idPrancha: 22, dataDeModificacao: '2024-01-01', documentacao: '9BRDEF1234A100001', estadoConservacao: 'Novo', preco: 205000, cargasDisponibilizados: '12t', tamanhoComprimento: '11m', nomeCor: 'Branca', tamanhoLargura: '2.5m', nomeFreio: 'Ar' },
-            { idPrancha: 23, dataDeModificacao: '2024-02-15', documentacao: '9BRDEF1234A100002', estadoConservacao: 'Usado', preco: 207000, cargasDisponibilizados: '25t', tamanhoComprimento: '15m', nomeCor: 'Amarelo', tamanhoLargura: '3m', nomeFreio: 'Disco' },
-            { idPrancha: 24, dataDeModificacao: '2024-03-20', documentacao: '9BRDEF1234A100003', estadoConservacao: 'Reformado', preco: 210000, cargasDisponibilizados: '33t', tamanhoComprimento: '20m', nomeCor: 'Preto', tamanhoLargura: '3.2m', nomeFreio: 'Abs' },
-            { idPrancha: 25, dataDeModificacao: '2024-04-10', documentacao: '9BRDEF1234A100004', estadoConservacao: 'Novo', preco: 212000, cargasDisponibilizados: '12t', tamanhoComprimento: '15m', nomeCor: 'Branca', tamanhoLargura: '2.5m', nomeFreio: 'Ar' },
-            { idPrancha: 26, dataDeModificacao: '2024-05-25', documentacao: '9BRDEF1234A100005', estadoConservacao: 'Usado', preco: 215000, cargasDisponibilizados: '25t', tamanhoComprimento: '20m', nomeCor: 'Amarelo', tamanhoLargura: '3.2m', nomeFreio: 'Disco' },
-            { idPrancha: 27, dataDeModificacao: '2024-07-01', documentacao: '9BRDEF1234A100006', estadoConservacao: 'Reformado', preco: 218000, cargasDisponibilizados: '33t', tamanhoComprimento: '11m', nomeCor: 'Preto', tamanhoLargura: '3m', nomeFreio: 'Abs' },
-            { idPrancha: 28, dataDeModificacao: '2024-08-12', documentacao: '9BRDEF1234A100007', estadoConservacao: 'Novo', preco: 220000, cargasDisponibilizados: '12t', tamanhoComprimento: '15m', nomeCor: 'Branca', tamanhoLargura: '3m', nomeFreio: 'Ar' },
-            { idPrancha: 29, dataDeModificacao: '2024-09-18', documentacao: '9BRDEF1234A100008', estadoConservacao: 'Usado', preco: 223000, cargasDisponibilizados: '25t', tamanhoComprimento: '20m', nomeCor: 'Amarelo', tamanhoLargura: '2.5m', nomeFreio: 'Disco' },
-            { idPrancha: 30, dataDeModificacao: '2024-10-25', documentacao: '9BRDEF1234A100009', estadoConservacao: 'Reformado', preco: 225000, cargasDisponibilizados: '33t', tamanhoComprimento: '11m', nomeCor: 'Preto', tamanhoLargura: '3.2m', nomeFreio: 'Abs' },
-            { idPrancha: 31, dataDeModificacao: '2024-11-13', documentacao: '9BRDEF1234A100010', estadoConservacao: 'Novo', preco: 209000, cargasDisponibilizados: '25t', tamanhoComprimento: '20m', nomeCor: 'Branca', tamanhoLargura: '3m', nomeFreio: 'Ar' },
-        ];
+    const filtrarPedidos = async () => {
+        const { data, error } = await supabase.from('pedido').select('*').or(`nome.ilike.%${buscaPedido}%,email.ilike.%${buscaPedido}%,telefone.ilike.%${buscaPedido}%`);
 
-        setPedidos(pedidosFake);
-        setEstoque(estoqueFake);
-    }, []);
+        if (error) {
+            console.error('Erro ao buscar pedidos:', error);
+        } else {
+            setPedidos(data || []);
+        }
+    };
+    ////Pesquisar Pedido
+
+    ////Pesquisar Estoque
+    const [buscaEstoque, setBuscaEstoque] = useState('');
+
+    const filtrarEstoque = async () => {
+        const { data, error } = await supabase.from('estoque').select('*').or(`documentacao.ilike.%${buscaEstoque}%,estado.ilike.%${buscaEstoque}%`);
+
+        if (error) {
+            console.error('Erro ao buscar estoque:', error);
+        } else {
+            setEstoque(data || []);
+        }
+    };
+    ////Pesquisar Estoque
+
+    ////View Pedidos
+        const [pedidos, setPedidos] = useState<any[]>([]);
+        const ViewPedidos = async () => {
+            let { data: dadosPedido } = await supabase.from('pedido').select('*');
+            setPedidos(dadosPedido || []);
+        }
+        useEffect(() => {
+            ViewPedidos();
+        }, [])
+    ////View Pedidos
+
+    ////View Estoque
+        const [estoque, setEstoque] = useState<any[]>([]);
+        const ViewEstoque = async () => {
+            let { data: dadosEstoque } = await supabase.from('estoque').select('*');
+            setEstoque(dadosEstoque || []);
+        }
+        useEffect(() => {
+            ViewEstoque();
+        }, [])
+    ////View Estoque
+
+    ////Deletar Pedido
+    const deletarPedido = async (id: number) => {
+    const confirmar = window.confirm('Tem certeza que deseja excluir este pedido?');
+
+    if (!confirmar) return;
+
+    const { error } = await supabase.from('pedido').delete().eq('id', id);
+
+    if (error) {
+        alert('Erro ao deletar pedido');
+        console.error(error);
+    } else {
+        alert('Pedido deletado com sucesso!');
+        ViewPedidos(); // recarrega a lista atualizada
+    }
+    };
+    ////Deletar Pedido
+
+    ////Deletar Estoque
+    const deletarEstoque = async (id: number) => {
+    const confirmar = window.confirm('Tem certeza que deseja excluir esta prancha?');
+
+    if (!confirmar) return;
+
+    const { error } = await supabase.from('estoque').delete().eq('id', id);
+
+    if (error) {
+        alert('Erro ao deletar prancha');
+        console.error(error);
+    } else {
+        alert('Prancha deletado com sucesso!');
+        ViewEstoque(); // recarrega a lista atualizada
+    }
+    };
+    ////Deletar Estoque
 
     return (
-        <div style={{ position: 'relative', minHeight: '100vh', padding: '20px' }}>
+        <>
+            <header>
+                <div style={{ position: 'relative', padding: '20px' }}>
+                    <br />
+                    <ul className="flex gap-1">
+                            <li>
+                                <button className='btn-primary' onClick={() => navigate('/')}>Voltar</button>
+                            </li>
+                            <li>
+                                <button className='btn-primary' onClick={() => navigate('/relatorios')}>Relatórios</button>
+                            </li>
+                        </ul>                   
+                </div>
+            </header>
 
-            <BackButton onClick={handleVoltar} />
-
-            <section style={{ marginTop: '80px' }}>
-                <h1>Pedidos</h1>
-                {/* Tabela de Pedidos */}
-                <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+            
+            <div>   
+                {/* TABELA PEDIDOS */}
+                <br />
+                <ul className="flex gap-1">
+                    <li>
+                        <h2>Pesquisa de Pedido</h2>
+                    </li>
+                    <li>
+                        <input type='text' placeholder='Buscar por Nome, Email ou Telefone' value={buscaPedido} onChange={(e) => setBuscaPedido(e.target.value)} style={{ width: '400px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}/>
+                        <a onClick={filtrarPedidos} style={{ padding: '20px'}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <button className='btn-primary' onClick={() => navigate('/createPedido')}>Adicionar Pedido</button>
+                    </li>
+                </ul>
+                <br />
+                <table className='tables'>
                     <thead>
                         <tr>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>ID</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Nome</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Email</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Telefone</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Carga</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Comprimento</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Cor</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Largura</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Freio</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Carga</th>
+                            <th>Comprimento</th>
+                            <th>Cor</th>
+                            <th>Largura</th>
+                            <th>Freio</th>
+                            <th>Ações</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        {pedidos.map((pedido) => (
-                            <tr key={pedido.idPedido}>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.idPedido}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.nomeCliente}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.emailCliente}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.telefoneCliente}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.cargasDisponibilizados}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.tamanhoComprimento}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.nomeCor}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.tamanhoLargura}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{pedido.nomeFreio}</td>
+                        {pedidos.map((p, index) => (
+                            <tr key={index}>
+                                <td>{p.nome}</td>
+                                <td>{p.email}</td>
+                                <td>{p.telefone}</td>
+                                <td>{p.carga}</td>
+                                <td>{p.comprimento}</td>
+                                <td>{p.cor}</td>
+                                <td>{p.largura}</td>
+                                <td>{p.freio}</td>
+                                <td className="flex gap-1">
+                                    <a onClick={() => navigate(`/updatePedido/${p.id}`)}>
+                                        <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-pencil' viewBox='0 0 16 16'>
+                                        <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325'/>
+                                        </svg> 
+                                    </a>
+                                    <a onClick={() => deletarPedido(p.id)}>
+                                        <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-trash-fill' viewBox='0 0 16 16'>
+                                        <path d='M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0'/>
+                                        </svg>
+                                    </a>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
-
                 </table>
-            </section>
+            </div>
 
-            {/* Tabela de Estoque */}
-            <section style={{ marginTop: '50px' }}>
-                <h1>Lista do Estoque</h1>
-                <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+            <div>   
+                {/* TABELA ESTOQUE */}
+                <br />
+                <ul className="flex gap-1">
+                    <li>
+                        <h2>Pesquisa de Estoque</h2>
+                    </li>
+                    <li>
+                        <input type='text' placeholder='Buscar por Documentação, Estado ou Preço' value={buscaEstoque} onChange={(e) => setBuscaEstoque(e.target.value)} style={{ width: '400px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}/>
+                        <a onClick={filtrarEstoque} style={{ padding: '20px'}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <button className='btn-primary' onClick={() => navigate('/createEstoque')}>Adicionar Prancha</button>
+                    </li>
+                </ul>
+                <br />
+                <table className='tables'>
                     <thead>
                         <tr>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>ID</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Data Modificação</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Documentação</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Estado</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Preço</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Carga</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Comprimento</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Cor</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Largura</th>
-                            <th style={{ border: '1px solid black', textAlign: 'center' }}>Freio</th>
+                            <th>Data de Modificação</th>
+                            <th>Documentação</th>
+                            <th>Estado</th>
+                            <th>Preço</th>
+                            <th>Carga</th>
+                            <th>Comprimento</th>
+                            <th>Cor</th>
+                            <th>Largura</th>
+                            <th>Freio</th>
+                            <th>Ações</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        {estoque.map((item) => (
-                            <tr key={item.idPrancha}>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.idPrancha}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.dataDeModificacao}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.documentacao}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.estadoConservacao}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>R$ {item.preco.toLocaleString()}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.cargasDisponibilizados}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.tamanhoComprimento}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.nomeCor}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.tamanhoLargura}</td>
-                                <td style={{ border: '1px solid black', textAlign: 'center' }}>{item.nomeFreio}</td>
+                        {estoque.map((p, index) => (
+                            <tr key={index}>
+                                <td>{p.data_modificacao}</td>
+                                <td>{p.documentacao}</td>
+                                <td>{p.estado}</td>
+                                <td>{p.preco}</td>
+                                <td>{p.carga}</td>
+                                <td>{p.comprimento}</td>
+                                <td>{p.cor}</td>
+                                <td>{p.largura}</td>
+                                <td>{p.freio}</td>
+                                <td className="flex gap-1">
+                                    <a onClick={() => navigate(`/updateEstoque/${p.id}`)}>
+                                        <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-pencil' viewBox='0 0 16 16'>
+                                        <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325'/>
+                                        </svg> 
+                                    </a>
+                                    <a onClick={() => deletarEstoque(p.id)}>
+                                        <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' className='bi bi-trash-fill' viewBox='0 0 16 16'>
+                                        <path d='M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0'/>
+                                        </svg>
+                                    </a>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
-
                 </table>
-            </section>
-        </div>
+            </div>
+        </>
     );
 };
 

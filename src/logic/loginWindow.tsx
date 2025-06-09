@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { supabase } from "../supaBaseConnection";
 
 interface LoginWindowProps {
   estaAberto: boolean;
@@ -13,13 +14,22 @@ const LoginWindow: React.FC<LoginWindowProps> = ({ estaAberto, estaFechando }) =
     return null;
   }
 
-  const handleLogin = () => {
-    if (login === "admin" && senha === "admin") {
-      window.location.href = "/editar";
-    } else {
-      alert("Login ou senha incorretos!");
-    }
-  };
+  const handleLogin = async () => {
+  const { data, error } = await supabase.from("login").select("*").eq("login", login).single();
+
+  if (error || !data) {
+    alert("Usuário não encontrado");
+    return;
+  }
+
+  if (senha === data.senha) {
+    // Autenticado com sucesso
+    window.location.href = "/editar";
+  } else {
+    alert("Senha incorreta!");
+  }
+};
+
 
   return (
     <div 

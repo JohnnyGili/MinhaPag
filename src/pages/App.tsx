@@ -4,6 +4,11 @@ import Card01 from './Card01';
 import Card02 from './Card02';
 import Card03 from './Card03';
 import Editar from './Editar';
+import Relatorios from './Relatorios';
+import UpdatePedido from './UpdatePedido';
+import UpdateEstoque from './UpdateEstoque';
+import CreateEstoque from './CreateEstoque';
+import CreatePedido from './CreatePedido';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +19,11 @@ const App: React.FC = () => {
         <Route path="/card02" element={<Card02 />} />
         <Route path="/card03" element={<Card03 />} />
         <Route path="/editar" element={<Editar />} />
+        <Route path="/relatorios" element={<Relatorios />} />
+        <Route path="/updatePedido/:id" element={<UpdatePedido />} />
+        <Route path="/updateEstoque/:id" element={<UpdateEstoque  />} />
+        <Route path="/createEstoque" element={<CreateEstoque />} />
+        <Route path="/createPedido" element={<CreatePedido />} />
         <Route path="*" element={<h1>NotFound</h1>} />
       </Routes>
     </Router>
