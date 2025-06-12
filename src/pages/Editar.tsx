@@ -105,9 +105,9 @@ const Editar: React.FC = () => {
                             <li>
                                 <button className='btn-primary' onClick={() => navigate('/')}>Voltar</button>
                             </li>
-                            <li>
+                            {/* <li>
                                 <button className='btn-primary' onClick={() => navigate('/relatorios')}>Relatórios</button>
-                            </li>
+                            </li> */}
                         </ul>                   
                 </div>
             </header>
