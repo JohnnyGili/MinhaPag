@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google-cloud/functions-framework": "^4.0.0",
+    "@sendgrid/mail": "^8.1.5",
     "@supabase/supabase-js": "^2.49.4",
     "@types/react-router-dom": "^5.3.3",
     "minhapag": "file:",

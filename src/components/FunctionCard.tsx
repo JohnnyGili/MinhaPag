@@ -9,7 +9,7 @@ export default function FunctionCard(props: IFunctionCard) {
         <div className='card'>
             <img src={props.img} alt="Foto caminhao 1" width={280} height={180} />
             <h2>{props.title}</h2>
-            {props.description}
+            <p>{props.description}</p>
         </div> 
     )
 }

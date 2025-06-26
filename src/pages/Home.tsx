@@ -13,6 +13,8 @@ import IconEmail from "../assets/images/iconemail01.png";
 import IconFacebook from "../assets/images/iconfacebook01.png";
 import IconLocal from "../assets/images/imglocal01.png";
 import Icon01 from "../assets/images/ColeMacGrath.webp";
+import Icon02 from "../assets/images/osama bin laden.jpg";
+import Icon03 from "../assets/images/Diddy.jpg";
 import Estrela from "../assets/images/estrela.jpg";
 import EstrelaVazia from "../assets/images/estrela vazia.jpg";
 import "../styles/testimonials.css";
@@ -23,6 +25,7 @@ import '../styles/utility.css'
 import '../styles/index.css'
 import '../styles/buttons.css'
 import '../styles/pricing.css'
+import '../styles/email.css'
 import { useEffect, useState } from 'react';
 import LoginWindow from '../logic/loginWindow';
 import CustomButton from '../components/CustomButton';
@@ -83,6 +86,26 @@ export default function Home() {
             }
         };
     ///CREATE Pedido
+
+    ///Dispara o email
+    const [toMail, setToMail] = useState('');
+    const [content, setContent] = useState('');
+
+    function handleEmail() {                
+        fetch('/api', {
+            method: 'POST',
+            headers: {
+                'Authorization':'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjFiYjc3NGJkODcyOWVhMzhlOWMyZmUwYzY0ZDJjYTk0OGJmNjZmMGYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA2Njk1MTk3OTY4NTU1NDE4MzkzIiwiZW1haWwiOiJqb2hubnlnaWxsaWdpbGxpQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiWEloel9EQ2I0cVVqeDNTRVI0ZnF0USIsIm5iZiI6MTc1MDg5NTA4NywiaWF0IjoxNzUwODk1Mzg3LCJleHAiOjE3NTA4OTg5ODcsImp0aSI6IjFiNjBjNGM3MDA5ZTk2ODJkMzZmMTIyNmNjNzE5OWY0NTM1NjdkMjEifQ.hsv75qhU5c7N8OEqS7LzM4CbmjHf8zJ0hhbTDieue-YVOxu3YPp7NnKDkLQJuYjmDKl45d659Bhuph6E3y662CidTczFb5S1epp3egp4okN7oQxfdEBC0YFHGZ1H1YW0rpOW7UWCdIZ0pQFLlDcON01DNNo-3E6ybazmaD8xFtUqNrG_1CKHhoaHc3NkhzESKlXeiaZEHHLS1O3bgDYOi_pqgWOspFXSRr5cgXZRUFqFsJmy6Gq3jQVgcqDMfOQfsARkG6zhXYmoaK7vu4FZGJeDnrVakko98B8fxrGqG_ErIJ57ooPvICrmIxXDuGIL2PnEmCN_RLnCg7UDIcjJHw',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ toMail, content})
+        }) 
+        .then(response => response.json())
+        .then(data => console.log('Sucesso:', data))
+        .catch(error => console.error('Erro:', error));
+    } 
+    ///Dispara o email
+    
     return (
         <>
             <header className="container py-sm" id='inicio'>
@@ -191,50 +214,45 @@ export default function Home() {
                     </header>
                     <section className="desktop-only">
                         <div className='even-columns'>
-                            {/* <FunctionCard 
+                            <FunctionCard 
                                 img={Caminhao01}
                                 title="Prancha"
-                                description="teste"                               
-                                /> */}
-                            <div className='card'>
-                                <img src={Caminhao01} alt="Foto caminhao 1" width={280} height={180} />
-                                <h2>Prancha</h2>
-                                <p>Comprimento: 11 metros</p>
-                                <p>Largura: 2.5 metros</p>
-                                <p>Carga: 12 toneladas</p>
-                                <p>Freio: Ar</p>
-                                <p>Cor: Branca</p>
-                                <CustomButton
-                                    label="Ver mais"
-                                    onClick={() => window.location.href = "/card01"}
-                                />
-                            </div>
-                            <div className='card'>
-                                <img src={Caminhao02} alt="Foto caminhao 2" width={280} height={180} />
-                                <h2>Prancha</h2>
-                                <p>Comprimento: 20 metros</p>
-                                <p>Largura: 3.2 metros</p>
-                                <p>Carga: 33 toneladas</p>
-                                <p>Freio: Ar</p>
-                                <p>Cor: Amarelo</p>
-                                <CustomButton
-                                    label="Ver mais"
-                                    onClick={() => window.location.href = "/card02"}
-                                />
-                            </div>
-                            <div className='card'>
-                                <img src={Caminhao03} alt="Foto caminhao 3" width={280} height={180} />
-                                <h2>Prancha</h2>
-                                <p>Comprimento: 15 metros</p>
-                                <p>Largura: 3 metros</p>
-                                <p>Carga: 15 toneladas</p>
-                                <p>Freio: Ar</p>
-                                <p>Cor: Preto</p>
-                                <CustomButton
-                                    label="Ver mais"
-                                    onClick={() => window.location.href = "/card03"}
-                                />
-                            </div>
+                                description={
+                                <>
+                                    Comprimento: 11 metros<br />
+                                    Largura: 2.5 metros<br />
+                                    Carga: 12 toneladas<br />
+                                    Freio: Ar<br />
+                                    Cor: Branca
+                                </>
+                                } 
+                            />
+                            <FunctionCard 
+                                img={Caminhao02}
+                                title="Prancha"
+                                description={
+                                <>
+                                    Comprimento: 20 metros<br />
+                                    Largura: 3.2 metros<br />
+                                    Carga: 33 toneladas<br />
+                                    Freio: Ar<br />
+                                    Cor: Amarelo
+                                </>
+                                } 
+                            />
+                            <FunctionCard 
+                                img={Caminhao03}
+                                title="Prancha"
+                                description={
+                                <>
+                                    Comprimento: 15 metros<br />
+                                    Largura: 3 metros<br />
+                                    Carga: 15 toneladas<br />
+                                    Freio: Ar<br />
+                                    Cor: Preto
+                                </>
+                                } 
+                            />
                         </div>
                     </section>
 
@@ -396,75 +414,50 @@ export default function Home() {
                                 <CarouselCard
                                     testimony="Comprei uma prancha de 2 eixos da Gilli há mais de 5 anos e até hoje ela entrega resultado. Aguenta carga pesada sem problema nenhum!"
                                     profileImg={Icon01}
-                                    rating={3}
+                                    rating={5}
                                     name="Cole Macgrath"
                                     position="CEO New Marais"
                                 />
-                                <div className="carousel-card">
-                                    <img src={Icon01} alt="Imagem perfil cliente" />
-                                    <span className="testimony">
-                                        <p>
-                                            Comprei uma prancha de 2 eixos da Gilli há mais de 5 anos e até hoje ela entrega resultado. 
-                                            Aguenta carga pesada sem problema nenhum!
-                                        </p>
-                                    </span>
-                                    <span className="rating">
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela sem fundo" width={20} height={22} />
-                                    </span>
-                                    <span className="names">
-                                        <p>Cole Macgrath</p>
-                                        <p>CEO New Marais</p>
-                                    </span>
-                                </div>
-                                <div className="carousel-card">
-                                    <img src={Icon01} alt="Imagem perfil cliente" />
-                                    <span className="testimony">
-                                        <p>
-                                            A robustez das pranchas Gilli é coisa de outro nível. 
-                                            Já rodei milhares de quilômetros com a minha e nunca precisei de manutenção pesada.
-                                        </p>
-                                    </span>
-                                    <span className="rating">
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={EstrelaVazia} alt="ícone estrela sem fundo" width={20} height={22} />
-                                    </span>
-                                    <span className="names">
-                                        <p>Cole Macgrath</p>
-                                        <p>CEO New Marais</p>
-                                    </span>
-                                </div>
-                                <div className="carousel-card">
-                                    <img src={Icon01} alt="Imagem perfil cliente" />
-                                    <span className="testimony">
-                                        <p>
-                                            O atendimento foi excelente e a prancha superou as expectativas. 
-                                            Estabilidade, segurança e durabilidade de verdade!
-                                        </p>
-                                    </span>
-                                    <span className="rating">
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela" width={22} height={20} />
-                                        <img src={Estrela} alt="ícone estrela sem fundo" width={20} height={22} />
-                                    </span>
-                                    <span className="names">
-                                        <p>Cole Macgrath</p>
-                                        <p>CEO New Marais</p>
-                                    </span>
-                                </div>                               
+                                <CarouselCard
+                                    testimony=" A robustez das pranchas Gilli é coisa de outro nível. Já rodei milhares de quilômetros com a minha e nunca precisei de manutenção pesada."
+                                    profileImg={Icon02}
+                                    rating={3}
+                                    name="Osama Bin Laden"
+                                    position="CEO Al-Qaeda"
+                                />
+                                <CarouselCard
+                                    testimony=" O atendimento foi excelente e a prancha superou as expectativas. Estabilidade, segurança e durabilidade de verdade!"
+                                    profileImg={Icon03}
+                                    rating={4}
+                                    name="P Diddy"
+                                    position="CEO White Party"
+                                />    
+                                <CarouselCard
+                                    testimony="Comprei uma prancha de 2 eixos da Gilli há mais de 5 anos e até hoje ela entrega resultado. Aguenta carga pesada sem problema nenhum!"
+                                    profileImg={Icon01}
+                                    rating={5}
+                                    name="Cole Macgrath"
+                                    position="CEO New Marais"
+                                />
+                                <CarouselCard
+                                    testimony=" A robustez das pranchas Gilli é coisa de outro nível. Já rodei milhares de quilômetros com a minha e nunca precisei de manutenção pesada."
+                                    profileImg={Icon02}
+                                    rating={3}
+                                    name="Osama Bin Laden"
+                                    position="CEO Al-Qaeda"
+                                />
+                                <CarouselCard
+                                    testimony=" O atendimento foi excelente e a prancha superou as expectativas. Estabilidade, segurança e durabilidade de verdade!"
+                                    profileImg={Icon03}
+                                    rating={4}
+                                    name="P Diddy"
+                                    position="CEO White Party"
+                                />                                                          
                             </div>
                         </section>                  
             </section>
             <section id="pricing" className="container">
-                 {/* PricingCard */}                     
+                {/* PricingCard */}                     
                 <header>
                     <p className="desktop-only">Planos e preços</p>
                     <h2>Nossos planos</h2>
@@ -473,15 +466,15 @@ export default function Home() {
                         <div className="pricing-card">
                             <span className="plan">
                                 <h3>Básico</h3>
-                                <p>Você tem direito a uma prova das comidas DonaFrost.</p>
+                                <p>Você tem direito a uma analise de um pedido.</p>
                             </span>
                                 <h2>Grátis</h2>
-                            <button type="button" key="free" className="secondary">
+                            <button type="button" key="free" className="btn-primary">
                                 Pedir agora
                             </button>
                             <span className="hr" /><span className="features">
                                 <img src={Check} alt="ícone check" width={24} height={24} />
-                                <p>Retire na loja</p>
+                                <p>Retire na empresa</p>
                             </span>
                             <ul className="features">                           
                                 <img src={Check} alt="íone check" width={24} height={24} />
@@ -494,13 +487,13 @@ export default function Home() {
                             </span>
                             <span className="plan">
                                 <h3>Premium</h3>
-                                <p>Para quem precisa de uma marmita diária, muito saborosa.</p>
+                                <p>Você tem direito a diversas analises de pedidos.</p>
                             </span>
                             <span className="price">
                                 <h2>R$ 89,90</h2>
                                 <p>/mês</p>
                             </span>
-                            <button type="button" key="free" className="secondary">
+                            <button type="button" key="free" className="btn-primary">
                                 Pedir agora
                             </button>
                             <span className="hr" />
@@ -520,15 +513,15 @@ export default function Home() {
                         <div className="pricing-card">
                             <span className="plan">
                                 <h3>Básico</h3>
-                                <p>Você tem direito a uma prova das comidas DonaFrost.</p>
+                                <p>Você tem direito a uma analise de um pedido.</p>
                             </span>
                                 <h2>Grátis</h2>
-                            <button type="button" key="free" className="secondary">
+                            <button type="button" key="free" className="btn-primary">
                                 Pedir agora
                             </button>
                             <span className="hr" /><span className="features">
                                 <img src={Check} alt="ícone check" width={24} height={24} />
-                                <p>Retire na loja</p>
+                                <p>Retire na empresa</p>
                             </span>
                             <ul className="features">
                                 <img src={Check} alt="íone check" width={24} height={24} />
@@ -536,14 +529,86 @@ export default function Home() {
                             </ul>
                         </div>
                     </section>
-            </section> 
-
-            <section>
-                <footer style={{ backgroundColor: "black", textAlign: "center", padding: "1rem" }}>
-                    <p style={{ color: "white" }}>&copy; 2024 GILLI Implementos Rodoviários</p>
-                </footer>
-                <LoginWindow estaAberto={loginAberto} estaFechando={fecharLogin} />
+                    
             </section>
+
+            <section  className="container">
+                <section className="email">
+                    {/* emailDisparar */}                 
+                    <header>
+                        <span>
+                            <h3>Tire dúvidas com a gente, fale com conosco!!</h3><br />
+                            <h2>Envie seu Email</h2><br />
+                            <p>
+                            Envie-nos um e-mail para receber atendimento personalizado, tirar dúvidas ou solicitar sua prancha ideal com total confiança da nossa empresa.
+                            Nossa equipe está pronta para te atender com agilidade e dedicação em cada etapa do processo.
+                            </p><br />
+                        </span>
+                    </header>
+                    <section>
+                        <input type="text" id="info" value={toMail} onChange={(e) => setToMail(e.target.value)} placeholder="Aqui seu Email!!!"/>
+                        <br />
+                        <input type="text" id="infoEmail" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Motivo: qualquer dúvida!"/>
+                        <br />    
+                        <section>
+                            <br />
+                            <button className='btn-primary' onClick={handleEmail}>Enviar Email</button>  
+                        </section>                    
+                    </section>
+                </section>
+            </section>
+
+            <section className="container">
+                <div className="grid even-columns gap-1.5">
+                    <div>
+                        <br />
+                        <h3>LogoMarca</h3><br />
+                        <a style={{marginRight:"10px"}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                            </svg>
+                        </a>
+                        <a style={{marginRight:"10px"}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                            </svg>
+                        </a>
+                        <a style={{marginRight:"10px"}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div>
+                        <br />
+                        <h3>Empresa</h3><br />
+                        <a>Sobre nós</a><br /><br />
+                        <a>Faça parte do time</a><br /><br />
+                        <a>Blog</a>
+                    </div>
+                    <div>
+                        <br />
+                        <h3>Funcionalidades</h3><br />
+                        <a>Marketing</a><br /><br />
+                        <a>Análise de dados</a><br /><br />
+                        <a>Boot discord</a>
+                    </div>
+                    <div>
+                        <br />
+                        <h3>Recursos</h3><br />
+                        <a>IOS & Android</a><br /><br />
+                        <a>Teste a Demo</a><br /><br />
+                        <a>Clientes</a><br /><br />
+                        <a>API</a>
+                    </div>
+                </div>
+                <br />
+            </section>
+
+            <footer style={{ backgroundColor: "black", textAlign: "center", padding: "1rem" }}>
+                    <p style={{ color: "white" }}>&copy; 2025 GILLI Implementos Rodoviários - Todos os direitos reservados.</p>
+            </footer>
+            <LoginWindow estaAberto={loginAberto} estaFechando={fecharLogin} />
             </>
             );
 }
