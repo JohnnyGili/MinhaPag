@@ -24,13 +24,8 @@ const LoginWindow: React.FC<LoginWindowProps> = ({ estaAberto, estaFechando }) =
     alert("Login inválido");
     return;
   }
-
-  // redireciona
   window.location.href = "/editar";
 };
-
-
-
 
   return (
     <div 

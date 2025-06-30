@@ -67,7 +67,7 @@ const Editar: React.FC = () => {
             ]);
             ////Registrar no relatórios
         alert('Pedido deletado com sucesso!');
-        ViewPedidos(); // recarrega a lista atualizada
+        ViewPedidos(); 
     }
     };
     ////Deletar Pedido
@@ -78,7 +78,6 @@ const Editar: React.FC = () => {
 
     if (!confirmar) return;
 
-    // Simples prompt para escolher o estoque_id (a versão com <select> virá depois)
     const listaPranchas = estoque.map((e) => `ID ${e.id} - ${e.documentacao || 'Sem doc'}`).join('\n');
     const idEscolhido = prompt(`Escolha o ID da prancha do estoque:\n${listaPranchas}`);
 
@@ -86,20 +85,28 @@ const Editar: React.FC = () => {
 
     const estoqueSelecionado = parseInt(idEscolhido);
 
-    const { error } = await supabase.from('transacoes').insert([
+    const { data: transacaoData, error } = await supabase.from('transacoes').insert([
     {
         pedido_id: pedido.id,
         nome_transacoes: pedido.nome,
         id_prancha: estoqueSelecionado,
         data: new Date().toISOString()
     }
-    ]);
-
+    ]).select().single();
 
     if (error) {
         alert("Erro ao registrar transação");
         console.error(error);
     } else {
+            // Registrar no relatorios
+            const { error: relatorioError } = await supabase.from('relatorios').insert([
+            {
+                tabela: 'transacoes',
+                tipo_acao: 'finalizado',
+                id_item: transacaoData.id,
+                data: new Date().toISOString()
+            }
+            ]);
         alert("Pedido finalizado!");
         ViewPedidos();
     }
