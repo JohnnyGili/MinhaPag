@@ -41,10 +41,19 @@ const UpdatePedido = () => {
         e.preventDefault();
 
         const { error } = await supabase.from('pedido').update({
-        nome, email, telefone, carga, comprimento, largura, freio, cor,
+            nome, email, telefone, carga, comprimento, largura, freio, cor,
         }).eq('id', id);
 
         if (!error) {
+            ////Registrar no relatórios
+            await supabase.from('relatorios').insert([
+                {
+                    tabela: 'pedido',
+                    tipo_acao: 'atualizado',
+                    id_item: id
+                }
+            ]);
+            ////Registrar no relatórios
         alert("Pedido atualizado com sucesso!");
         navigate('/editar'); // volta pra Home
         }

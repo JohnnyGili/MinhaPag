@@ -15,20 +15,21 @@ const LoginWindow: React.FC<LoginWindowProps> = ({ estaAberto, estaFechando }) =
   }
 
   const handleLogin = async () => {
-  const { data, error } = await supabase.from("login").select("*").eq("login", login).single();
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: login,
+    password: senha,
+  });
 
-  if (error || !data) {
-    alert("Usuário não encontrado");
+  if (error || !data.user) {
+    alert("Login inválido");
     return;
   }
 
-  if (senha === data.senha) {
-    // Autenticado com sucesso
-    window.location.href = "/editar";
-  } else {
-    alert("Senha incorreta!");
-  }
+  // redireciona
+  window.location.href = "/editar";
 };
+
+
 
 
   return (
@@ -87,8 +88,8 @@ const LoginWindow: React.FC<LoginWindowProps> = ({ estaAberto, estaFechando }) =
               Login:
             </label>
             <input 
-              type="text" 
-              placeholder="Digite seu login"
+              type="email" 
+              placeholder="Digite seu email"
               value={login}
               onChange={(e) => setLogin(e.target.value)}
               style={{

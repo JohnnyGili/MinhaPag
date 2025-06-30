@@ -46,6 +46,15 @@ const UpdateEstoque = () => {
         }).eq('id', id);
 
         if (!error) {
+        ////Registrar no relatórios
+        await supabase.from('relatorios').insert([
+            {
+                tabela: 'estoque',
+                tipo_acao: 'atualizado',
+                id_item: id
+            }
+        ]);
+        ////Registrar no relatórios
         alert("Estoque atualizado com sucesso!");
         navigate('/editar');
         }

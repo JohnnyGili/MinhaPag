@@ -9,6 +9,8 @@ import UpdatePedido from './UpdatePedido';
 import UpdateEstoque from './UpdateEstoque';
 import CreateEstoque from './CreateEstoque';
 import CreatePedido from './CreatePedido';
+import Estoque from './Estoque';
+import Transacoes from './Transacoes';
 
 const App: React.FC = () => {
   return (
@@ -24,6 +26,8 @@ const App: React.FC = () => {
         <Route path="/updateEstoque/:id" element={<UpdateEstoque  />} />
         <Route path="/createEstoque" element={<CreateEstoque />} />
         <Route path="/createPedido" element={<CreatePedido />} />
+        <Route path="/estoque" element={<Estoque />} />   
+        <Route path="/transacoes" element={<Transacoes />} />
         <Route path="*" element={<h1>NotFound</h1>} />
       </Routes>
     </Router>

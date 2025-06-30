@@ -6,10 +6,6 @@ import '../styles/formulario.css'
 const CreateEstoque: React.FC = () => {
     const navigate = useNavigate();
 
-    const handleVoltar = () => {
-        navigate('/');
-    };
-
     const [data_modificacao, setDataDeModificacao] = useState('');
     const [documentacao, setDocumentacao] = useState('');
     const [estado, setEstado] = useState('');
@@ -23,17 +19,26 @@ const CreateEstoque: React.FC = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { error } = await supabase.from('estoque').insert([
+        const { data: novaPrancha, error } = await supabase.from('estoque').insert([
             {
             data_modificacao, documentacao, estado, preco, carga, comprimento, largura, freio, cor
             }
-        ]);
+        ]).select().single();
 
         if (error) {
             console.error("Erro ao salvar Prancha:", error);
         } else {
+            ////Registrar no relatórios
+            await supabase.from('relatorios').insert([
+                {
+                    tabela: 'estoque',
+                    tipo_acao: 'criado',
+                    id_item: novaPrancha.id
+                }
+            ]);
+            ////Registrar no relatórios
             alert("Prancha salvo com sucesso!");
-            navigate('/editar'); 
+            navigate('/estoque'); 
         }
     };
 

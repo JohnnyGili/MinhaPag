@@ -2,15 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supaBaseConnection';
 import '../styles/formulario.css'
-import BackButton from '../components/BackButton';
 
 const CreatePedido: React.FC = () => {
     const navigate = useNavigate();
 
-    const handleVoltar = () => {
-        navigate('/');
-    };
-    
     ///CREATE Pedido
         const [nome, setNome] = useState('');
         const [email, setEmail] = useState('');
@@ -24,16 +19,26 @@ const CreatePedido: React.FC = () => {
         const handleSubmit = async (e) => {
             e.preventDefault();
 
-            const { error } = await supabase.from('pedido').insert([
+            const { data: novoPedido, error } = await supabase.from('pedido').insert([
                 {
-                nome, email, telefone, carga, comprimento, largura, freio, cor
+                    nome, email, telefone, carga, comprimento, largura, freio, cor
                 }
-            ]);
+            ]).select().single();
 
             if (error) {
                 console.error("Erro ao salvar pedido:", error);
             } else {
+                ////Registrar no relatórios
+                await supabase.from('relatorios').insert([
+                {
+                    tabela: 'pedido',
+                    tipo_acao: 'criado',
+                    id_item: novoPedido.id
+                }
+                ]);
+                ////Registrar no relatórios
                 alert("Pedido salvo com sucesso!");
+                navigate('/editar'); 
             }
         };
     ///CREATE Pedido
